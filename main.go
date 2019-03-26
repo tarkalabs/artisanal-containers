@@ -46,7 +46,11 @@ func (ac *ArtisanalContainer) Start() error {
 }
 
 func main() {
-	ac := &ArtisanalContainer{Command: "sh", Uid: os.Getuid(), Gid: os.Getgid()}
+	var otherArgs []string
+	if len(os.Args) > 2 {
+		otherArgs = os.Args[2:]
+	}
+	ac := &ArtisanalContainer{Command: os.Args[1], Args: otherArgs, Uid: os.Getuid(), Gid: os.Getgid()}
 	err := ac.Start()
 	if err != nil {
 		log.Fatal(err)
